@@ -25,6 +25,8 @@ def animacao_personagem():
     # Desenha o jogador na tela
     tela.blit(jogador, jogador_retangulo)
 
+def adicionar_objeto():
+    print("Criar novo objeto")
 
 # Inicializa o pygame
 pygame.init()
@@ -84,9 +86,15 @@ relogio = pygame.time.Clock()
 movimento_personagem = 0
 direcao_personagem = 0
 
+# Cria um evento para adicionar um objeto na tela
+novo_objeto_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(novo_objeto_timer, 500)
+
 # Loop principal do jogo
 while True:
+    # EVENTOS
     for evento in pygame.event.get():
+        print(evento)
         if evento.type == pygame.QUIT:
             pygame.quit()
             exit()
@@ -106,6 +114,9 @@ while True:
 
             if evento.key == pygame.K_LEFT:
                 movimento_personagem = 0
+
+        if evento.type == novo_objeto_timer:
+            adicionar_objeto()
 
     # Desenha o fundo na tela
     tela.blit(plano_fundo, (0, 0))
