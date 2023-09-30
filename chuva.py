@@ -26,7 +26,8 @@ def animacao_personagem():
     tela.blit(jogador, jogador_retangulo)
 
 def adicionar_objeto():
-    print("Criar novo objeto")
+    pass
+    
 
 # Inicializa o pygame
 pygame.init()
@@ -66,6 +67,7 @@ fundo_rochas_voadoras = pygame.transform.scale(fundo_rochas_voadoras, tamanho)
 jogador_index = 0
 jogador_parado_superficies = []
 jogador_voando_superficies = []
+objeto_projetil = []
 
 # Carrega o jogador parado
 for imagem in range(1, 14):
@@ -76,6 +78,11 @@ for imagem in range(1, 14):
 for imagem in range(1, 9):
     img = pygame.image.load(f'assets/jogador/voar/Hero Boy Fly{imagem}.png').convert_alpha()
     jogador_voando_superficies.append(img)
+
+# Carrega o objeto projetil
+for imagem in range(1, 4):
+    img = pygame.image.load(f'assets/objetos/projetil/Hero Bullet{imagem}.png').convert_alpha()
+    objeto_projetil.append(img)
 
 jogador_retangulo = jogador_parado_superficies[jogador_index].get_rect( center = (100, 430))
 
@@ -127,7 +134,7 @@ while True:
     tela.blit(fundo_chao, (0, 0))
     tela.blit(fundo_lua, (0, 0))
     tela.blit(fundo_rochas_voadoras, (0, 0))
-    
+  
     # Faz a chamada da função animação do personagem
     animacao_personagem()
 
@@ -136,3 +143,4 @@ while True:
 
     # Define a quantidade de frames por segundo
     relogio.tick(60)
+
