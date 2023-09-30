@@ -47,7 +47,7 @@ for imagem in range(1, 14):
 jogador_parado_rect = jogador_parado_surfaces[jogador_index].get_rect( center =(100,430))
 jogador_voando_rect = jogador_parado_rect
 movimento_personagem = 0
-
+direcao_personagem = 0
 # Carrega as imagens do personagem voando
 jogador_voando_surfaces = []
 
@@ -73,9 +73,11 @@ while True:
         if evento.key == pygame.K_RIGHT:
             movimento_personagem = 2
             tela.blit(jogador_parado_surfaces[int(jogador_index)],jogador_parado_rect)
+            direcao_personagem = 1
             #jogador_voando_surfaces = pygame.transform.flip(jogador_voando_surfaces, True, False)
         if evento.key == pygame.K_LEFT:
             movimento_personagem = -2
+            direcao_personagem = 0
             tela.blit(jogador_parado_surfaces[int(jogador_index)],jogador_parado_rect)
         if evento.key == pygame.K_DOWN:
             movimento_personagem = 0
@@ -93,6 +95,11 @@ while True:
     #Desenha o jogador parado na tela
     jogador_parado_rect.x += movimento_personagem
     jogador_voando_rect.x += movimento_personagem
+
+    if direcao_personagem ==1:
+        jogador = pygame.transform.flip(jogador_voando_surfaces[int(jogador_index)], True, False)
+    else:
+        jogador = jogador_voando_surfaces[int(jogador_index)]
 
     if movimento_personagem == 0:
         tela.blit(jogador_parado_surfaces[int(jogador_index)],jogador_parado_rect)
