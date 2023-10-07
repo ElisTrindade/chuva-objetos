@@ -91,6 +91,20 @@ def movimento_objetos_chuva():
         if objeto['retangulo'].y > 540:
             lista_chuva_objetos.remove(objeto)
 
+def colisoes_jogador():
+    #global lista_chuva_objetos, moedas, vidas
+
+    for objeto in lista_chuva_objetos:
+        if jogador_retangulo.colliderect(objeto['retangulo']):
+            print("Bateu alguma coisa")
+            if objeto['tipo'] == 'Coracao':
+                vidas += 1
+            elif objeto['tipo'] == 'Moeda':
+                moedas += 1
+            elif objeto['tipo'] == 'Projetil':
+                vidas -= 1
+
+
 # Inicializa o pygame
 pygame.init()
 
