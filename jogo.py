@@ -34,6 +34,11 @@ def animacao_personagem():
     jogador_retangulo.x += movimento_personagem
     # jogador_surface = null
 
+    if jogador_retangulo.right >= 960:
+        jogador_retangulo.right = 960
+    elif jogador_retangulo.left <=0:
+        jogador_retangulo.left =0
+
     if movimento_personagem == 0: # Jogador está parado
         jogador_superficies = jogador_parado_superficies
     else: # Jogador está se movimentando
@@ -92,19 +97,34 @@ def movimento_objetos_chuva():
             lista_chuva_objetos.remove(objeto)
 
 def colisoes_jogador():
-    #global lista_chuva_objetos, moedas, vidas
+    global lista_chuva_objetos, vidas, moedas
 
     for objeto in lista_chuva_objetos:
         if jogador_retangulo.colliderect(objeto['retangulo']):
-            print("Bateu alguma coisa")
-            if objeto['tipo'] == 'Coracao':
+            
+            if objeto['tipo'] == 'Coração':
                 vidas += 1
+                
             elif objeto['tipo'] == 'Moeda':
                 moedas += 1
+                print(f"Moedas = {moedas}")
+
             elif objeto['tipo'] == 'Projetil':
                 vidas -= 1
 
+            lista_chuva_objetos.remove(objeto)
 
+def mostra_textos():
+    
+    # Cria o texto para as moedas
+    quant_moedas = fonte_pixel.render(str(moedas), True, '#FFFFFF')
+    quant_vidas = fonte_pixel.render(str(vidas), True, '#FFFFFF')
+    logo_moedas = pygame.transform.scale(moeda_superficies[0], (30,30))
+    logo_vidas = pygame.transform.scale(coracao_superficies[0], (40,40))
+    tela.blit(quant_moedas, (45,5))
+    tela.blit(quant_vidas, (42,60))
+    tela.blit(logo_moedas, (5,0))
+    tela.blit(logo_vidas, (0,50))
 # Inicializa o pygame
 pygame.init()
 
@@ -118,6 +138,10 @@ pygame.display.set_caption("ChuvaMortal")
 ##
 ## Importa os arquivos necessários
 ##
+
+# Carrega a fonte do jogo 
+
+fonte_pixel = pygame.font.Font('assets/font/PixelType.ttf', 50)
 
 # Carrega o plano de fundo
 plano_fundo = pygame.image.load('assets/fundo/Night-Background8.png').convert()
@@ -186,6 +210,9 @@ for imagem in range(1, 4):
 # Guarda os objetos que vão cair do céu
 lista_chuva_objetos = []
 
+moedas = 0
+vidas = 3
+
 # Cria um relógio para controlar os FPS
 relogio = pygame.time.Clock()
 
@@ -240,6 +267,9 @@ while True:
 
     movimento_objetos_chuva()
 
+    colisoes_jogador()
+
+    mostra_textos ()
     # Atualiza a tela com o conteudo
     pygame.display.update()
 
